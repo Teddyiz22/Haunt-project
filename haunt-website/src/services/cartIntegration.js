@@ -1,5 +1,5 @@
-// Integration point for Step 12 shopping cart.
-// This does not create a cart, checkout, or order.
+// Integration point for the shopping bag: validates size/stock, then hands
+// the item to CartContext via the 'haunt:add-to-bag' window event.
 
 export function addToBag({ product, variant, quantity }) {
   if (!variant?.available) {
@@ -19,10 +19,12 @@ export function addToBag({ product, variant, quantity }) {
     productId: product.id,
     slug: product.slug,
     name: product.name,
+    imageUrl: product.images?.[0]?.url || '',
     variantId: variant.id,
     size: variant.size,
     quantity: amount,
     unitPriceMmk: product.price_mmk,
+    stockQuantity: stock,
   }
 
   window.dispatchEvent(new CustomEvent('haunt:add-to-bag', { detail: item }))

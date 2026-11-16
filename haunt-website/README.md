@@ -123,3 +123,48 @@ Write routes require `request.user.role === 'admin'` (Step 11) or `X-Admin-Token
 - `DELETE /api/admin/products/:id/images/:imageId`
 
 Do not store image binaries in MySQL. For production, keep the same URL field and move files to object storage (for example S3 or R2), then store the object URL in `product_images.image_url`.
+
+## Cart and guest checkout (Step 12)
+
+The bag is local to the browser: `src/context/CartContext.jsx` keeps items
+keyed by variant, merges the same size, caps quantities at stock, and persists
+to `localStorage` under `haunt-cart-v1`. Adding from a product page still goes
+through `src/services/cartIntegration.js`, which dispatches the
+`haunt:add-to-bag` event the provider listens for. Routes: `/bag` (cart),
+`/checkout`, `/order/:orderNumber` (confirmation).
+
+Apply the guest-checkout migration before placing orders:
+
+```sh
+mysql -u root -p < server/database/migrations/011_guest_checkout.sql
+```
+
+It adds nullable guest columns to `orders` — `customer_name`,
+`customer_phone`, `shipping_address_line_1`, `shipping_address_line_2`,
+`shipping_city`, `shipping_region`, `shipping_postal_code`,
+`shipping_country_code`, and `payment_method`. Guest addresses are not stored
+in `addresses` because that table requires a `user_id`. The migration is safe
+to re-run: each column is added only when it is missing.
+
+Checkout is guest-only — no login is required. Payment is **Cash on Delivery
+only**; no payment provider is integrated. Delivery is **0 MMK at checkout,
+labelled "to be confirmed by the store"** — no delivery rate is invented; the
+store confirms the charge with the customer after the order is placed.
+
+### Order API
+
+- `POST /api/orders` — guest checkout. Body: `{ customer: { name, email,
+  phone, addressLine1, addressLine2?, city, region?, postalCode?,
+  countryCode }, items: [{ variantId, quantity }] }`. In one transaction the
+  API locks each variant row, rejects missing, inactive, or out-of-stock
+  items with 400, prices everything from the database (client prices are
+  never trusted), inserts the order (`status: 'pending'`, `grand_total =
+  subtotal`), snapshots each `order_items` row, decrements
+  `product_variants.stock_quantity`, and inserts a `payments` row
+  (`provider: 'cash_on_delivery'`, `status: 'pending'`). Returns 201 with
+  `{ orderNumber, status, subtotal, shippingTotal, discountTotal, grandTotal,
+  customerEmail, items }`. Order numbers look like `HNT-20261116-1234`.
+- `GET /api/orders/:orderNumber?email=...` — returns the order and its items
+  only when the `email` query matches the order's `customer_email`
+  (case-insensitive). Any other result is 404, so the endpoint never reveals
+  whether an order number exists.

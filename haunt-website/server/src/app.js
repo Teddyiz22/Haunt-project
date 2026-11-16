@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import healthRoutes from './routes/healthRoutes.js'
 import productRoutes, { adminProductRouter, categoryRouter } from './routes/productRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 import { ensureUploadDirectories, uploadsRoot } from './config/uploads.js'
 import { notFound } from './middleware/notFound.js'
 import { errorHandler } from './middleware/errorHandler.js'
@@ -39,6 +40,7 @@ app.get('/', (_request, response) => {
 app.use('/api/health', healthRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoryRouter)
+app.use('/api/orders', orderRoutes)
 app.use('/api/admin/products', adminProductRouter)
 
 app.use(notFound)

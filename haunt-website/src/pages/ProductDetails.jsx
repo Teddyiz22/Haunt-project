@@ -16,12 +16,14 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState('')
   const [quantity, setQuantity] = useState(1)
   const [notice, setNotice] = useState('')
+  const [addedToBag, setAddedToBag] = useState(false)
 
   useEffect(() => {
     let cancelled = false
     setLoading(true)
     setError('')
     setNotice('')
+    setAddedToBag(false)
     getProductBySlug(slug)
       .then((payload) => {
         if (cancelled) return
@@ -61,6 +63,7 @@ export default function ProductDetails() {
     setSelectedSize(size)
     setQuantity(1)
     setNotice('')
+    setAddedToBag(false)
   }
 
   function handleQuantity(nextValue) {
@@ -73,9 +76,11 @@ export default function ProductDetails() {
     const result = addToBag({ product, variant: selectedVariant, quantity })
     if (!result.ok) {
       setNotice(result.reason)
+      setAddedToBag(false)
       return
     }
-    setNotice('Held for the bag. Cart and checkout arrive in a later step.')
+    setNotice('Added to your bag.')
+    setAddedToBag(true)
   }
 
   return (
@@ -170,7 +175,12 @@ export default function ProductDetails() {
                 >
                   Add to bag
                 </button>
-                {notice && <p className="product-info__notice">{notice}</p>}
+                {notice && (
+                  <p className="product-info__notice">
+                    {notice}{' '}
+                    {addedToBag && <Link to="/bag">View bag</Link>}
+                  </p>
+                )}
                 <Link className="product-info__back" to="/shop">Back to the collection</Link>
               </div>
             </div>

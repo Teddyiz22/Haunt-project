@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, ShoppingBag, X } from 'lucide-react'
+import { useCart } from '../context/CartContext.jsx'
 
 const navigation = [
   { label: 'Home', to: '/' },
@@ -11,6 +12,7 @@ const navigation = [
 ]
 
 export default function Navbar({ overlay = true }) {
+  const { itemCount } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
 
   function closeMenu() {
@@ -38,10 +40,15 @@ export default function Navbar({ overlay = true }) {
         </nav>
 
         <div className="site-header__actions">
-          <div className="bag-display nav-text">
+          <Link className="bag-display nav-text" to="/bag" aria-label={`Bag, ${itemCount} item${itemCount === 1 ? '' : 's'}`}>
             <ShoppingBag aria-hidden="true" size={16} strokeWidth={1.5} />
             <span>Bag</span>
-          </div>
+            {itemCount > 0 && (
+              <span className="bag-display__count" aria-hidden="true">
+                {itemCount}
+              </span>
+            )}
+          </Link>
 
           <button
             className="menu-toggle"
