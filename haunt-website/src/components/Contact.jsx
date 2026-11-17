@@ -32,10 +32,11 @@ function validate(values) {
   return errors
 }
 
-export default function Contact() {
+export default function Contact({ asPage = false }) {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const Heading = asPage ? 'h1' : 'h2'
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -61,8 +62,8 @@ export default function Contact() {
     <section className="contact" id="contact" aria-labelledby="contact-title">
       <div className="container contact__container">
         <header className="contact__header">
-          <p className="section-label">A conversation starts here <span>—</span> {brandInfo.location}</p>
-          <h2 className="contact__title" id="contact-title">Let’s <em>connect.</em></h2>
+          <p className="section-label">{asPage ? 'Contact' : 'A conversation starts here'} <span>—</span> {brandInfo.location}</p>
+          <Heading className="contact__title" id="contact-title">Let’s <em>connect.</em></Heading>
           <p className="contact__intro">For questions, collaborations, or anything else, get in touch.</p>
         </header>
 

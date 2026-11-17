@@ -1,0 +1,219 @@
+.collection-page {
+  background: var(--haunt-bg-primary);
+  padding-top: 7.5rem;
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.collection-page__header {
+  max-width: 56rem;
+}
+
+.collection-page__header .section-label span {
+  color: var(--haunt-accent);
+}
+
+.collection-page__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.collection-page__lede {
+  max-width: 46rem;
+  margin: 1.25rem 0 0;
+  line-height: 1.7;
+}
+
+.collection-page__entries {
+  display: grid;
+  gap: clamp(3rem, 7vw, 6rem);
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+.collection-page__entry {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  border-top: 1px solid var(--haunt-border);
+  padding-top: clamp(2rem, 5vw, 4rem);
+}
+
+.collection-page__gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.collection-page__figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.collection-page__image-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 0.84;
+  background: var(--haunt-bg-secondary);
+}
+
+.collection-page__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.collection-page__view-label {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  border: 1px solid rgb(255 255 255 / 28%);
+  padding: 0.55rem 0.7rem;
+  background: rgb(8 8 8 / 62%);
+  color: var(--haunt-text-primary);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.collection-page__photo-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.8rem;
+  color: var(--haunt-text-muted);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.collection-page__details .section-label span {
+  color: var(--haunt-accent);
+}
+
+.collection-page__drop-title {
+  margin: 1rem 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.collection-page__quote {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.collection-page__description {
+  max-width: 34rem;
+  margin: 1.25rem 0 0;
+  color: var(--haunt-text-secondary);
+  line-height: 1.7;
+}
+
+.collection-page__product {
+  margin-top: 2rem;
+  border-top: 1px solid var(--haunt-border);
+  padding-top: 1.5rem;
+}
+
+.collection-page__product-name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.collection-page__product-name span {
+  color: var(--haunt-text-muted);
+}
+
+.collection-page__product-fit {
+  margin: 0.5rem 0 0;
+  color: var(--haunt-text-secondary);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.collection-page__product-price {
+  margin: 0.75rem 0 0;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.collection-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.collection-page__actions .outline-button {
+  gap: 1.25rem;
+}
+
+.collection-page__shop-link {
+  color: var(--haunt-text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+.collection-page__disclaimer {
+  max-width: 22rem;
+  margin: 1rem 0 0;
+  color: var(--haunt-text-muted);
+  font-size: 0.65rem;
+  line-height: 1.6;
+}
+
+.collection-page__status {
+  margin: 1.5rem 0 0;
+  color: var(--haunt-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.collection-page__coming-note {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 60rem) {
+  .collection-page__entry {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .collection-page__entry--coming {
+    grid-template-columns: minmax(0, 0.85fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .collection-page__gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-page__image-wrap {
+    aspect-ratio: 0.92;
+  }
+}

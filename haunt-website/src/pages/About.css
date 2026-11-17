@@ -1,0 +1,228 @@
+.about {
+  background: var(--haunt-bg-primary);
+  padding-top: 7.5rem;
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.about__header {
+  max-width: 56rem;
+}
+
+.about__header .section-label span {
+  color: var(--haunt-accent);
+}
+
+.about__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.about__intro {
+  display: grid;
+  gap: 1rem;
+  max-width: 46rem;
+  margin-top: 2rem;
+  color: var(--haunt-text-secondary);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.about__intro p {
+  margin: 0;
+}
+
+.about__statement {
+  margin: 2.5rem 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about__statement::before {
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-bottom: 1.5rem;
+  background: var(--haunt-accent);
+  content: "";
+}
+
+.about__sections {
+  margin-top: clamp(4rem, 8vw, 7rem);
+}
+
+.about__section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid var(--haunt-border);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.about__section:last-child {
+  border-bottom: 1px solid var(--haunt-border);
+}
+
+.about__number {
+  margin: 0;
+  color: var(--haunt-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about__number span {
+  padding-inline: 0.3rem;
+  color: var(--haunt-accent);
+}
+
+.about__subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.about__body {
+  display: grid;
+  gap: 1rem;
+  max-width: 46rem;
+  color: var(--haunt-text-secondary);
+  line-height: 1.7;
+}
+
+.about__body p {
+  margin: 0;
+}
+
+.about__drops {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .about__drops {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.about__drop {
+  border: 1px solid var(--haunt-border);
+  background: var(--haunt-bg-secondary);
+  padding: 1.75rem;
+}
+
+.about__drop-name {
+  margin: 0.75rem 0 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.about__drop p:not(.section-label):not(.about__drop-name):not(.about__drop-status) {
+  margin: 0.75rem 0 0;
+  color: var(--haunt-text-secondary);
+  line-height: 1.7;
+}
+
+.about__drop-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.about__drop-link {
+  color: var(--haunt-text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}
+
+.about__drop-status {
+  margin: 1.25rem 0 0;
+  color: var(--haunt-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about__closing {
+  margin-top: clamp(4rem, 8vw, 7rem);
+  text-align: center;
+}
+
+.about__closing-wordmark {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 600;
+  letter-spacing: -0.09em;
+  line-height: 0.85;
+}
+
+.about__closing-statement {
+  margin: 1.75rem 0 0;
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.about__closing-tagline {
+  margin: 0.75rem 0 0;
+  color: var(--haunt-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.about__closing-established {
+  margin: 0.75rem 0 0;
+  color: var(--haunt-text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 60rem) {
+  .about__section {
+    grid-template-columns: minmax(0, 0.35fr) minmax(0, 0.65fr);
+    gap: 2rem 3rem;
+  }
+
+  .about__number {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .about__subtitle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .about__body,
+  .about__drops {
+    grid-column: 2;
+  }
+}

@@ -7,9 +7,9 @@ import { useAuth } from '../context/AuthContext.jsx'
 const navigation = [
   { label: 'Home', to: '/' },
   { label: 'Shop', to: '/shop' },
-  { label: 'Collection', to: '/#collection' },
-  { label: 'About', to: '/#about' },
-  { label: 'Contact', to: '/#contact' },
+  { label: 'Collection', to: '/collection' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: '/contact' },
 ]
 
 export default function Navbar({ overlay = true }) {

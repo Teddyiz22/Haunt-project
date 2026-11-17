@@ -1,0 +1,9 @@
+.contact-page {
+  background: var(--haunt-bg-primary);
+  padding-top: 5.25rem;
+}
+
+/* The reused contact section already carries its own vertical padding. */
+.contact-page .contact {
+  background: var(--haunt-bg-primary);
+}

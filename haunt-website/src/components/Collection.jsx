@@ -68,6 +68,7 @@ export default function Collection() {
                 <span>Discover the piece</span>
                 <ArrowDownRight aria-hidden="true" size={17} strokeWidth={1.5} />
               </Link>
+              <Link className="collection__all-link" to="/collection">View all collections</Link>
               <p className="collection__disclaimer">
                 Placeholder photography. Replace with official HΛUNT product images.
               </p>
