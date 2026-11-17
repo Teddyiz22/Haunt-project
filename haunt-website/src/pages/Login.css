@@ -1,0 +1,100 @@
+.auth {
+  min-height: 100svh;
+  padding-top: 7.5rem;
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+  background: var(--haunt-bg-primary);
+}
+
+.auth__inner {
+  max-width: 34rem;
+}
+
+.auth__title {
+  margin: 1rem 0 0;
+  font-family: var(--font-body);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.auth__intro {
+  margin: 1rem 0 0;
+}
+
+.auth__form {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.auth__row {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+  .auth__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.auth__field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.auth__field > span {
+  color: var(--haunt-text-secondary);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.auth__field input {
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid var(--haunt-border);
+  background: var(--haunt-bg-secondary);
+  padding: 0.75rem 0.9rem;
+  color: var(--haunt-text-primary);
+}
+
+.auth__field input[aria-invalid="true"] {
+  border-color: var(--haunt-accent);
+}
+
+.auth__error {
+  margin: 0;
+  color: #ff8a80;
+  font-size: 0.85rem;
+}
+
+.auth__error-details {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.auth__submit {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.auth__submit:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.auth__switch {
+  margin: 1.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+.auth__switch a {
+  color: var(--haunt-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}

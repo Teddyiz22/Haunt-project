@@ -91,7 +91,7 @@ With MySQL connected, expect HTTP 200 with `success: true`, `status: "ok"`, and 
 
 ## Security foundation
 
-Database credentials and JWT settings come from environment variables. The API uses a bounded JSON body parser, explicit CORS origins, a centralized error handler, and a generic validation middleware. SQL access is designed to use the mysql2 parameterized query interface. `bcrypt` and `jsonwebtoken` are dependencies for later authentication work; no authentication endpoints or token issuance are implemented in this step. `authorizeRoles` is a preparation middleware for use after a future authentication middleware sets `req.user`; it does not itself authenticate requests.
+Database credentials and JWT settings come from environment variables. The API uses a bounded JSON body parser, explicit CORS origins, a centralized error handler, and a generic validation middleware. SQL access is designed to use the mysql2 parameterized query interface. `bcrypt` and `jsonwebtoken` power Step 11 authentication (register/login/JWT); `authorizeRoles` is a preparation middleware for use after the authentication middleware sets `req.user`. See "Login and authentication (Step 11)" below.
 
 `src/config/api.js` exports `API_BASE_URL` for frontend catalog requests. Shop (`/shop`) and product details (`/product/:slug`) load live data from the Express API.
 
@@ -123,6 +123,71 @@ Write routes require `request.user.role === 'admin'` (Step 11) or `X-Admin-Token
 - `DELETE /api/admin/products/:id/images/:imageId`
 
 Do not store image binaries in MySQL. For production, keep the same URL field and move files to object storage (for example S3 or R2), then store the object URL in `product_images.image_url`.
+
+## Login and authentication (Step 11)
+
+Customers can create an account and sign in; signing in is optional — guest
+checkout keeps working with no account.
+
+### Setup
+
+Set a long random secret in `server/.env` before anyone can sign in:
+
+```sh
+JWT_SECRET=<a long random secret, at least 32 characters>
+```
+
+Authentication is unavailable until `JWT_SECRET` is set to a real secret (the
+placeholder from `.env.example` does not count): login and registration
+return 503 and `/api/auth/me` returns 503. Tokens last `JWT_EXPIRES_IN`
+(default `1h`).
+
+Create the first administrator account (from `server/`):
+
+```sh
+npm run create-admin -- --email admin@example.com --password 'a-long-secret'
+# or: ADMIN_EMAIL=admin@example.com ADMIN_PASSWORD='a-long-secret' npm run create-admin
+```
+
+The script hashes the password and inserts a user with role `admin`. It is
+safe to re-run: if the email already has an account, it prints a message and
+exits without changing the password.
+
+### Auth API
+
+- `POST /api/auth/register` — body `{ first_name, last_name, email, password }`
+  (password 8–128 characters). Returns 201 with `{ user, token }`. A duplicate
+  email returns 409. New accounts are always role `customer`.
+- `POST /api/auth/login` — body `{ email, password }`. Returns 200 with
+  `{ user, token }`. Wrong credentials return a generic 401 that never
+  reveals whether the email is registered.
+- `GET /api/auth/me` — requires `Authorization: Bearer <token>`. Returns
+  `{ user }`. Missing, invalid, or expired tokens, and inactive or deleted
+  users, all return 401. The user object never contains `password_hash`.
+
+Passwords are stored as bcrypt hashes (cost 12) and are never returned or
+logged. There is no password-reset flow yet — that is a later step.
+
+### Admin access
+
+Admin product routes accept two ways in, in this order:
+
+1. A signed-in admin account: send the login token as
+   `Authorization: Bearer <token>` (an admin JWT sets `request.user`).
+2. The existing `ADMIN_API_TOKEN` fallback: `X-Admin-Token` or
+   `Authorization: Bearer <token>` matching the configured token.
+
+Both are fail-closed: with neither a valid admin JWT nor the configured
+token, admin writes return 401. Logout is client-side — the browser deletes
+the stored token (`localStorage` key `haunt-auth-token`) because JWTs are
+stateless.
+
+### Frontend
+
+Routes: `/login`, `/register`, `/account` (redirects to `/login` when signed
+out). `src/context/AuthContext.jsx` keeps the token and user, restores the
+session on load by calling `/api/auth/me`, and clears a rejected token. The
+navbar shows Login when signed out and Account + Sign out when signed in.
 
 ## Cart and guest checkout (Step 12)
 
@@ -168,3 +233,22 @@ store confirms the charge with the customer after the order is placed.
   only when the `email` query matches the order's `customer_email`
   (case-insensitive). Any other result is 404, so the endpoint never reveals
   whether an order number exists.
+
+## Sample dataset (demo only)
+
+Load extra sample data for testing — more products, sizes, and two sample
+orders (one pending, one completed) with items and payments:
+
+```sh
+mysql -u root -p < server/database/seeds/011_sample_dataset.sql
+```
+
+It adds the Accessories category and 5 sample products (Void Tee 42,000 MMK,
+Eyes of Life Hoodie 95,000 MMK, Stay Cap 25,000 MMK, Haunt Tote Bag
+18,000 MMK, and a sold-out Eyes of Life Longsleeve to test the sold-through
+state), plus sample orders `HNT-20261110-0001` (pending, 84,000 MMK) and
+`HNT-20261110-0002` (completed, 67,000 MMK) for
+`sample@haunt-demo.test` / `demo@haunt-demo.test`. The file is safe to re-run.
+Sample orders buy only the new sample products, so the 010 demo stock (Eyes
+of Life Tee M = 15) is left untouched for the end-to-end order test. No
+product images are included — sample product photos are still an open task.

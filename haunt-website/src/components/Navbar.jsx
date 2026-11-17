@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Menu, ShoppingBag, X } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { LogOut, Menu, ShoppingBag, User, X } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 
 const navigation = [
   { label: 'Home', to: '/' },
@@ -13,10 +14,18 @@ const navigation = [
 
 export default function Navbar({ overlay = true }) {
   const { itemCount } = useCart()
+  const { user, isSignedIn, logout } = useAuth()
+  const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
 
   function closeMenu() {
     setMenuOpen(false)
+  }
+
+  function handleLogout() {
+    logout()
+    closeMenu()
+    navigate('/')
   }
 
   return (
@@ -40,6 +49,29 @@ export default function Navbar({ overlay = true }) {
         </nav>
 
         <div className="site-header__actions">
+          {isSignedIn ? (
+            <>
+              <Link className="bag-display nav-text" to="/account" aria-label="Your account">
+                <User aria-hidden="true" size={16} strokeWidth={1.5} />
+                <span>Account</span>
+              </Link>
+              <button
+                className="bag-display nav-text"
+                type="button"
+                onClick={handleLogout}
+                aria-label="Sign out"
+              >
+                <LogOut aria-hidden="true" size={16} strokeWidth={1.5} />
+                <span>Sign out</span>
+              </button>
+            </>
+          ) : (
+            <Link className="bag-display nav-text" to="/login" aria-label="Sign in">
+              <User aria-hidden="true" size={16} strokeWidth={1.5} />
+              <span>Login</span>
+            </Link>
+          )}
+
           <Link className="bag-display nav-text" to="/bag" aria-label={`Bag, ${itemCount} item${itemCount === 1 ? '' : 's'}`}>
             <ShoppingBag aria-hidden="true" size={16} strokeWidth={1.5} />
             <span>Bag</span>
@@ -81,6 +113,26 @@ export default function Navbar({ overlay = true }) {
             <span>{item.label}</span>
           </Link>
         ))}
+        <Link
+          className="mobile-nav__link"
+          to={isSignedIn ? '/account' : '/login'}
+          onClick={closeMenu}
+          tabIndex={menuOpen ? 0 : -1}
+        >
+          <span className="mobile-nav__number">0{navigation.length + 1}</span>
+          <span>{isSignedIn ? `Account (${user?.first_name || 'You'})` : 'Login'}</span>
+        </Link>
+        {isSignedIn && (
+          <button
+            className="mobile-nav__link"
+            type="button"
+            onClick={handleLogout}
+            tabIndex={menuOpen ? 0 : -1}
+          >
+            <span className="mobile-nav__number">0{navigation.length + 2}</span>
+            <span>Sign out</span>
+          </button>
+        )}
       </nav>
     </header>
   )

@@ -5,6 +5,9 @@ import ProductDetails from './pages/ProductDetails.jsx'
 import Cart from './pages/Cart.jsx'
 import Checkout from './pages/Checkout.jsx'
 import OrderConfirmation from './pages/OrderConfirmation.jsx'
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
+import Account from './pages/Account.jsx'
 
 export default function App() {
   return (
@@ -15,6 +18,9 @@ export default function App() {
       <Route path="/bag" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/order/:orderNumber" element={<OrderConfirmation />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/account" element={<Account />} />
     </Routes>
   )
 }

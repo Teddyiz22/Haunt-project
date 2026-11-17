@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { validate } from '../middleware/validate.js'
+import { optionalAuthenticate } from '../middleware/authenticate.js'
 import { requireAdmin } from '../middleware/requireAdmin.js'
 import { productImageUpload } from '../middleware/productImageUpload.js'
 import {
@@ -29,6 +30,9 @@ export const categoryRouter = Router()
 categoryRouter.get('/', asyncHandler(productController.listCategories))
 
 export const adminProductRouter = Router()
+// An admin JWT (Step 11) is accepted first; requireAdmin keeps its existing
+// ADMIN_API_TOKEN fallback, so both ways to administer keep working.
+adminProductRouter.use(optionalAuthenticate)
 adminProductRouter.use(requireAdmin)
 
 adminProductRouter.post(

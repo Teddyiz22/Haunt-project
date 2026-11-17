@@ -14,8 +14,10 @@ function tokensEqual(provided, expected) {
 }
 
 // Fail-closed administrator gate.
-// Step 11 will populate request.user from JWT. Until then, writes are denied
-// unless ADMIN_API_TOKEN is configured and sent. An empty token never grants access.
+// Step 11 populates request.user from a JWT via optionalAuthenticate, which
+// runs before this middleware on admin routes. Writes are still denied
+// unless the request carries an admin JWT or ADMIN_API_TOKEN is configured
+// and sent. An empty token never grants access.
 export function requireAdmin(request, response, next) {
   if (request.user?.role === 'admin' && request.user?.is_active !== false) {
     return next()

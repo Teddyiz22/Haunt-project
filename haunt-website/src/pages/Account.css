@@ -1,0 +1,64 @@
+.account {
+  min-height: 100svh;
+  padding-top: 7.5rem;
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+  background: var(--haunt-bg-primary);
+}
+
+.account__title {
+  margin: 1rem 0 2.5rem;
+  font-family: var(--font-body);
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.account__details {
+  display: grid;
+  gap: 1rem;
+  max-width: 34rem;
+  margin: 0;
+}
+
+.account__details > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--haunt-border);
+}
+
+.account__details dt {
+  color: var(--haunt-text-secondary);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.account__details dd {
+  margin: 0;
+}
+
+.account__admin-note {
+  max-width: 34rem;
+  margin: 1.5rem 0 0;
+  padding: 1.25rem;
+  border: 1px solid var(--haunt-border);
+  background: var(--haunt-bg-secondary);
+  font-size: 0.9rem;
+}
+
+.account__note {
+  margin: 1.5rem 0 0;
+  font-size: 0.85rem;
+}
+
+.account__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}

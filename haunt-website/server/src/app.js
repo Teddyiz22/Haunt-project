@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import healthRoutes from './routes/healthRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 import productRoutes, { adminProductRouter, categoryRouter } from './routes/productRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import { ensureUploadDirectories, uploadsRoot } from './config/uploads.js'
@@ -38,6 +39,7 @@ app.get('/', (_request, response) => {
   response.json({ service: 'haunt-store-api', message: 'HΛUNT API is running.' })
 })
 app.use('/api/health', healthRoutes)
+app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoryRouter)
 app.use('/api/orders', orderRoutes)
