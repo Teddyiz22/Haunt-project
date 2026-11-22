@@ -46,7 +46,8 @@ export default function Navbar({ overlay = true }) {
           aria-label="HΛUNT home"
           onClick={closeMenu}
         >
-          HΛUNT
+          <img src="/images/haunt-logo-mark.png" alt="" aria-hidden="true" />
+          <span>HΛUNT</span>
         </Link>
 
         <nav className="desktop-nav" aria-label="Main navigation">

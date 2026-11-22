@@ -15,7 +15,7 @@ export default function BrandStory() {
           <div className="brand-story__title-wrap">
             <span className="brand-story__monogram" aria-hidden="true">H</span>
             <h2 className="brand-story__title" id="brand-story-title">
-              The things<br />that stay <em>with you.</em>
+              The things<br />that stay with you.
             </h2>
           </div>
 
@@ -28,14 +28,13 @@ export default function BrandStory() {
             </p>
             <p>
               We believe clothing can be more than something you wear. It can represent a
-              moment, an identity, or something impossible to forget.
+              moment, an identity, or something that stays with you.
             </p>
           </div>
         </div>
 
         <footer className="brand-story__closing">
           <p className="section-label">Established 2026</p>
-          <p className="brand-story__signature"><span>HΛUNT</span> — Impossible to forget.</p>
           <span className="brand-story__rule" aria-hidden="true" />
         </footer>
       </div>

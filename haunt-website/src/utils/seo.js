@@ -17,7 +17,7 @@ function setMeta(name, content, attribute = 'name') {
 // component; the values reset on the next navigation.
 export function usePageMeta({ title, description }) {
   useEffect(() => {
-    const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — Impossible to Forget`
+    const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — The things that stay with you.`
     document.title = fullTitle
     setMeta('description', description || 'HΛUNT — an independent Myanmar streetwear label. The things that stay with you.')
     setMeta('og:title', fullTitle, 'property')

@@ -28,9 +28,11 @@ export default function Footer() {
         <div className="site-footer__top">
           <div className="site-footer__brand">
             <Link className="site-footer__wordmark" to="/" aria-label={`${brandInfo.name} home`}>
-              {brandInfo.name}
+              <img
+                src="/images/haunt-logo-transparent.png"
+                alt=""
+              />
             </Link>
-            <p className="site-footer__slogan">Impossible to forget.</p>
             <p className="site-footer__origin">Est. {brandInfo.established} <span>—</span> {brandInfo.location}</p>
           </div>
 
@@ -65,8 +67,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="site-footer__statement" aria-label="The things that stay with you">
-          <p>The things that <em>stay with you.</em></p>
+        <div className="site-footer__statement" aria-label={brandInfo.tagline}>
+          <p>{brandInfo.tagline}</p>
         </div>
 
         <div className="site-footer__bottom">

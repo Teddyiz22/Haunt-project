@@ -14,11 +14,11 @@
 
 .about__title {
   margin: 1.25rem 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  font-family: var(--font-motto);
+  font-size: clamp(2.5rem, 5.5vw, 4.75rem);
   font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+  letter-spacing: 0;
+  line-height: 1.15;
 }
 
 .about__intro {
@@ -33,24 +33,6 @@
 
 .about__intro p {
   margin: 0;
-}
-
-.about__statement {
-  margin: 2.5rem 0 0;
-  font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.about__statement::before {
-  display: block;
-  width: 3rem;
-  height: 1px;
-  margin-bottom: 1.5rem;
-  background: var(--haunt-accent);
-  content: "";
 }
 
 .about__sections {
@@ -170,30 +152,10 @@
   text-align: center;
 }
 
-.about__closing-wordmark {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: clamp(4rem, 12vw, 9rem);
-  font-weight: 600;
-  letter-spacing: -0.09em;
-  line-height: 0.85;
-}
-
-.about__closing-statement {
-  margin: 1.75rem 0 0;
-  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.about__closing-tagline {
-  margin: 0.75rem 0 0;
-  color: var(--haunt-text-secondary);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.about__closing-logo {
+  width: clamp(13rem, 30vw, 18rem);
+  height: auto;
+  margin-inline: auto;
 }
 
 .about__closing-established {

@@ -20,23 +20,16 @@
 
 .site-footer__wordmark {
   display: inline-block;
-  margin-left: -0.075em;
-  font-size: clamp(5rem, 12vw, 11rem);
-  font-weight: 700;
-  letter-spacing: -0.12em;
-  line-height: 0.78;
-  transition: color var(--transition-fast);
 }
 
-.site-footer__wordmark:hover {
-  color: var(--haunt-text-secondary);
+.site-footer__wordmark img {
+  width: clamp(11rem, 26vw, 16rem);
+  height: auto;
+  transition: opacity var(--transition-fast);
 }
 
-.site-footer__slogan {
-  margin: 1.4rem 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2vw, 1.65rem);
-  letter-spacing: -0.025em;
+.site-footer__wordmark:hover img {
+  opacity: 0.75;
 }
 
 .site-footer__origin {
@@ -91,19 +84,12 @@
 }
 
 .site-footer__statement p {
-  max-width: 16ch;
-  margin: 0 0 0 -0.04em;
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 7.5rem);
+  margin: 0;
+  font-family: var(--font-motto);
+  font-size: clamp(2.5rem, 6vw, 5rem);
   font-weight: 400;
-  letter-spacing: -0.065em;
-  line-height: 0.98;
-  text-transform: uppercase;
-}
-
-.site-footer__statement em {
-  color: var(--haunt-text-secondary);
-  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 .site-footer__bottom {
@@ -134,12 +120,8 @@
     grid-column: 1 / -1;
   }
 
-  .site-footer__wordmark {
-    font-size: clamp(6rem, 19vw, 9rem);
-  }
-
   .site-footer__statement p {
-    font-size: clamp(3.5rem, 11vw, 6rem);
+    font-size: clamp(2.5rem, 9vw, 4rem);
   }
 }
 
@@ -153,10 +135,6 @@
     grid-column: 1 / -1;
   }
 
-  .site-footer__wordmark {
-    font-size: clamp(5rem, 21vw, 7rem);
-  }
-
   .site-footer__nav,
   .site-footer__socials {
     gap: 0.8rem;
@@ -167,7 +145,7 @@
   }
 
   .site-footer__statement p {
-    font-size: clamp(3.2rem, 13vw, 4.75rem);
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
   }
 
   .site-footer__bottom {

@@ -58,7 +58,6 @@ export default function About() {
               <p>We believe clothing is more than something you wear. It's an extension of how you see yourself, how you express yourself, and how you choose to exist in the world.</p>
               <p>We create pieces that carry meaning beyond their appearance.</p>
             </div>
-            <p className="about__statement">IMPOSSIBLE TO FORGET.</p>
           </header>
 
           <div className="about__sections">
@@ -114,9 +113,11 @@ export default function About() {
           </div>
 
           <footer className="about__closing">
-            <p className="about__closing-wordmark">HΛUNT</p>
-            <p className="about__closing-statement">IMPOSSIBLE TO FORGET.</p>
-            <p className="about__closing-tagline">THE THINGS THAT STAY WITH YOU.</p>
+            <img
+              className="about__closing-logo"
+              src="/images/haunt-logo-transparent.png"
+              alt="HΛUNT — The things that stay with you."
+            />
             <p className="about__closing-established">EST. 2026</p>
           </footer>
         </div>

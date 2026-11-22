@@ -21,12 +21,12 @@ export default function Hero() {
             Independent streetwear <span aria-hidden="true">—</span> Myanmar
           </p>
 
-          <h1 className="hero__title" id="hero-title">HΛUNT</h1>
-
-          <div className="hero__statement">
-            <p className="hero__slogan">Impossible to forget.</p>
-            <p className="hero__philosophy">The things that stay with you.</p>
-          </div>
+          <h1 className="hero__title" id="hero-title">
+            <img
+              src="/images/haunt-logo-transparent.png"
+              alt="HΛUNT — The things that stay with you."
+            />
+          </h1>
 
           <div className="hero__collection">
             <p className="section-label hero__drop">Drop 01 <span>—</span> Eyes of Life</p>
