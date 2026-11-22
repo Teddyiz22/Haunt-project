@@ -66,13 +66,13 @@
 
 .admin__message {
   margin: 0 0 1rem;
-  color: #80ed99;
+  color: var(--haunt-success);
   font-size: 0.9rem;
 }
 
 .admin__error {
   margin: 1rem 0;
-  color: #ff8a80;
+  color: var(--haunt-error);
   font-size: 0.9rem;
 }
 
@@ -211,13 +211,13 @@
 
 .admin-product__message {
   margin: 0;
-  color: #80ed99;
+  color: var(--haunt-success);
   font-size: 0.85rem;
 }
 
 .admin-product__error {
   margin: 0;
-  color: #ff8a80;
+  color: var(--haunt-error);
   font-size: 0.85rem;
 }
 

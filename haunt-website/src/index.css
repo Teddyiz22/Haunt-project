@@ -13,6 +13,12 @@
   --haunt-border: #292929;
   --haunt-accent: #b71c1c;
 
+  /* Feedback colors — dark values here; light values live in [data-theme="light"] */
+  --haunt-error: #ff8a80;
+  --haunt-error-soft: #e17c7c;
+  --haunt-success: #80ed99;
+  --haunt-low-stock: #ffb4ab;
+
   /* Font families */
   --font-body: "DM Sans", sans-serif;
   --font-display: "Playfair Display", Georgia, serif;
@@ -48,6 +54,119 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* White theme — every brand token gets a light value. The red accent is
+   unchanged: the brand red is the same in both themes. The hero stays a
+   dark photo section in both themes, so its overlay gradients and white
+   text are untouched by this block. */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --haunt-bg-primary: #ffffff;
+  --haunt-bg-secondary: #f4f3f1;
+  --haunt-text-primary: #141414;
+  --haunt-text-secondary: #5a5a5a;
+  --haunt-text-muted: #8a8a8a;
+  --haunt-border: #e3e1dd;
+
+  --haunt-error: #c62828;
+  --haunt-error-soft: #c62828;
+  --haunt-success: #1e7d32;
+  --haunt-low-stock: #b71c1c;
+}
+
+/* White theme — header and navigation. The dark translucent surfaces
+   become light ones so the dark text on top stays readable. */
+[data-theme="light"] .site-header {
+  border-bottom-color: rgb(0 0 0 / 12%);
+  background: rgb(255 255 255 / 78%);
+}
+
+[data-theme="light"] .site-header--solid {
+  background: rgb(255 255 255 / 96%);
+}
+
+[data-theme="light"] .desktop-nav__link,
+[data-theme="light"] .bag-display {
+  color: rgb(0 0 0 / 72%);
+}
+
+[data-theme="light"] .mobile-nav {
+  background: rgb(255 255 255 / 97%);
+}
+
+[data-theme="light"] .mobile-nav__link {
+  border-bottom-color: rgb(0 0 0 / 10%);
+}
+
+/* White theme — logo images. The logo's "HΛUNT" text is white, so it
+   would vanish on a white background. Inverting it turns the white text
+   black, and hue-rotate(180deg) brings the inverted red back to red —
+   verified against the real logo (sampled red #fe3b29 stays red, only
+   slightly deeper). The logo artwork itself is never altered.
+   The hero logo is excluded on purpose: the hero stays dark in both
+   themes, so its logo needs no change. */
+[data-theme="light"] .brand-mark img,
+[data-theme="light"] .site-footer__wordmark img,
+[data-theme="light"] .about__closing-logo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* White theme — toasts and skeletons get light surfaces. */
+[data-theme="light"] .toast {
+  background: #ffffff;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 16%);
+}
+
+[data-theme="light"] .skeleton-block,
+[data-theme="light"] .skeleton-line {
+  background: linear-gradient(100deg, #e9e9e9 30%, #f7f7f7 50%, #e9e9e9 70%);
+}
+
+/* White theme — order status pills. The dark-mode pastels are unreadable
+   on white, so each status gets a darker variant. */
+[data-theme="light"] .order-status--pending {
+  color: #8a6d0b;
+  border-color: rgb(138 109 11 / 45%);
+}
+
+[data-theme="light"] .order-status--confirmed,
+[data-theme="light"] .order-status--processing {
+  color: #1565c0;
+  border-color: rgb(21 101 192 / 45%);
+}
+
+[data-theme="light"] .order-status--shipped {
+  color: #8e24aa;
+  border-color: rgb(142 36 170 / 45%);
+}
+
+[data-theme="light"] .order-status--completed {
+  color: #2e7d32;
+  border-color: rgb(46 125 50 / 45%);
+}
+
+[data-theme="light"] .order-status--cancelled,
+[data-theme="light"] .order-status--refunded {
+  color: #c62828;
+  border-color: rgb(198 40 40 / 45%);
+}
+
+/* White theme — contact submit button. Its border and hover wash are
+   white-based in the dark theme. */
+[data-theme="light"] .contact__submit {
+  border-color: rgb(0 0 0 / 45%);
+}
+
+[data-theme="light"] .contact__submit:hover {
+  background: rgb(0 0 0 / 4%);
+}
+
+/* White theme — brand story watermark. The faint giant H is white-based;
+   flip it so it still reads faintly on white. */
+[data-theme="light"] .brand-story__monogram {
+  color: rgb(0 0 0 / 4%);
 }
 
 /* Expose brand tokens to Tailwind CSS v4 utilities. */
@@ -341,6 +460,21 @@ button {
   align-items: center;
   justify-content: center;
   color: var(--haunt-text-primary);
+}
+
+/* Theme toggle — sun icon in black mode, moon icon in white mode. */
+.theme-toggle {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--haunt-text-primary);
+  transition: color var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  color: var(--haunt-accent);
 }
 
 .mobile-nav {
@@ -748,6 +882,7 @@ button {
 }
 
 .brand-photo__word {
+  color: #fff;
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -755,7 +890,9 @@ button {
 
 .brand-photo__note {
   max-width: 16rem;
-  color: var(--haunt-text-secondary);
+  /* Pinned light grey: this tile stays black in both themes, so its text
+     must not follow the page text color. */
+  color: #999;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -803,7 +940,7 @@ button {
 
 .product-card__status--low {
   border-color: rgb(183 28 28 / 70%);
-  color: #ffb4ab;
+  color: var(--haunt-low-stock);
 }
 
 .product-card__quick-add {
@@ -934,7 +1071,7 @@ button {
 
 .newsletter__error {
   margin: 0.75rem 0 0;
-  color: #ff8a80;
+  color: var(--haunt-error);
   font-size: 0.85rem;
 }
 
@@ -997,7 +1134,7 @@ button {
 
 .product-info__low-stock {
   margin: 1rem 0 0;
-  color: #ffb4ab;
+  color: var(--haunt-low-stock);
   font-size: 0.85rem;
 }
 
@@ -1010,7 +1147,7 @@ button {
 
 .product-info__wishlist.is-active {
   border-color: var(--haunt-accent);
-  color: #ffb4ab;
+  color: var(--haunt-low-stock);
 }
 
 /* Order status pills — shared by account and admin */
@@ -1032,7 +1169,7 @@ button {
 .order-status--shipped { color: #b5179e; border-color: rgb(181 23 158 / 45%); }
 .order-status--completed { color: #80ed99; border-color: rgb(128 237 153 / 45%); }
 .order-status--cancelled,
-.order-status--refunded { color: #ff8a80; border-color: rgb(255 138 128 / 45%); }
+.order-status--refunded { color: var(--haunt-error); border-color: rgb(255 138 128 / 45%); }
 
 /* Account order history */
 .account__section-title {
@@ -1082,7 +1219,7 @@ button {
 
 .account__error {
   margin-top: 1rem;
-  color: #ff8a80;
+  color: var(--haunt-error);
   font-size: 0.9rem;
 }
 

@@ -105,6 +105,8 @@
   border: 1px solid rgb(255 255 255 / 24%);
   padding: 0.45rem 0.6rem;
   background: rgb(8 8 8 / 72%);
+  /* Pinned white: this badge sits on a dark wash over the product photo in both themes. */
+  color: #fff;
   font-size: 0.62rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Heart, LogOut, Menu, ShieldCheck, ShoppingBag, User, X } from 'lucide-react'
+import { Heart, LogOut, Menu, Moon, ShieldCheck, ShoppingBag, Sun, User, X } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
+import { useTheme } from '../context/ThemeContext.jsx'
 
 const navigation = [
   { label: 'Home', to: '/' },
@@ -17,6 +18,7 @@ export default function Navbar({ overlay = true }) {
   const { itemCount } = useCart()
   const { user, isSignedIn, logout } = useAuth()
   const { count: wishlistCount } = useWishlist()
+  const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -107,6 +109,20 @@ export default function Navbar({ overlay = true }) {
           </Link>
 
           <button
+            className="theme-toggle"
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to white theme' : 'Switch to black theme'}
+            title={theme === 'dark' ? 'Switch to white theme' : 'Switch to black theme'}
+          >
+            {theme === 'dark' ? (
+              <Sun aria-hidden="true" size={17} strokeWidth={1.5} />
+            ) : (
+              <Moon aria-hidden="true" size={17} strokeWidth={1.5} />
+            )}
+          </button>
+
+          <button
             className="menu-toggle"
             type="button"
             aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
@@ -157,6 +173,18 @@ export default function Navbar({ overlay = true }) {
             <span>Sign out</span>
           </button>
         )}
+        <button
+          className="mobile-nav__link"
+          type="button"
+          onClick={() => {
+            toggleTheme()
+            closeMenu()
+          }}
+          tabIndex={menuOpen ? 0 : -1}
+        >
+          <span className="mobile-nav__number">0{navigation.length + (isSignedIn ? 3 : 2)}</span>
+          <span>{theme === 'dark' ? 'White theme' : 'Black theme'}</span>
+        </button>
       </nav>
     </header>
   )

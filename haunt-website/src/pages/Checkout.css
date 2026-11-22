@@ -83,7 +83,7 @@
 }
 
 .checkout__error {
-  color: #ff8a80;
+  color: var(--haunt-error);
   font-size: 0.85rem;
 }
 

@@ -196,7 +196,7 @@
 
 .contact__error {
   margin: 0;
-  color: #e17c7c;
+  color: var(--haunt-error-soft);
   font-size: 0.75rem;
 }
 

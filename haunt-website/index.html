@@ -1,9 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#080808" />
+    <script>
+      // Apply the saved theme before first paint so the page never flashes
+      // the wrong theme. Matches the ThemeContext default (dark).
+      try {
+        var storedTheme = window.localStorage.getItem('haunt-theme')
+        if (storedTheme === 'light' || storedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', storedTheme)
+        }
+      } catch (error) {}
+    </script>
     <meta name="description" content="HΛUNT — an independent Myanmar streetwear label. The things that stay with you. Established 2026." />
     <title>HΛUNT — The things that stay with you.</title>
     <link rel="icon" type="image/png" href="/images/haunt-logo-mark.png" />
