@@ -61,7 +61,7 @@
 .brand-story__title {
   max-width: 14ch;
   margin: 0 0 0 -0.055em;
-  font-family: var(--font-motto);
+  font-family: var(--font-display);
   font-size: clamp(2.6rem, 5.5vw, 4.5rem);
   font-weight: 400;
   letter-spacing: 0;

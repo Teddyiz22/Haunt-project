@@ -15,8 +15,7 @@
 
   /* Font families */
   --font-body: "DM Sans", sans-serif;
-  --font-display: "Grenze Gotisch", Georgia, serif;
-  --font-motto: "UnifrakturMaguntia", Georgia, serif;
+  --font-display: "Playfair Display", Georgia, serif;
 
   /* Responsive type scale */
   --type-display: clamp(3.25rem, 10vw, 9rem);
@@ -268,6 +267,10 @@ button {
 .brand-mark img {
   height: 1.7rem;
   width: auto;
+}
+
+.brand-mark__wordmark {
+  height: 1.35rem;
 }
 
 .desktop-nav {

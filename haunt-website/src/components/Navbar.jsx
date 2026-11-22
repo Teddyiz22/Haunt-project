@@ -47,7 +47,7 @@ export default function Navbar({ overlay = true }) {
           onClick={closeMenu}
         >
           <img src="/images/haunt-logo-mark.png" alt="" aria-hidden="true" />
-          <span>HΛUNT</span>
+          <img className="brand-mark__wordmark" src="/images/haunt-wordmark.png" alt="" aria-hidden="true" />
         </Link>
 
         <nav className="desktop-nav" aria-label="Main navigation">
