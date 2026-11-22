@@ -4,12 +4,18 @@ import { ArrowDownRight } from 'lucide-react'
 import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
 import { getProductBySlug } from '../services/productService.js'
 import { formatMmk } from '../utils/formatMoney.js'
+import { usePageMeta } from '../utils/seo.js'
 import './Collection.css'
 
 const PRODUCT_SLUG = 'haunt-eyes-of-life-tee'
 
 export default function Collection() {
   const [product, setProduct] = useState(null)
+
+  usePageMeta({
+    title: 'Collection',
+    description: 'The HΛUNT collection. Drop 01: Eyes of Life is live; Vol. 02 — What Remains — is coming soon.',
+  })
 
   useEffect(() => {
     let cancelled = false

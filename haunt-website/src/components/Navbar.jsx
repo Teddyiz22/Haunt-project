@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { LogOut, Menu, ShoppingBag, User, X } from 'lucide-react'
+import { Heart, LogOut, Menu, ShieldCheck, ShoppingBag, User, X } from 'lucide-react'
 import { useCart } from '../context/CartContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useWishlist } from '../context/WishlistContext.jsx'
 
 const navigation = [
   { label: 'Home', to: '/' },
@@ -15,6 +16,7 @@ const navigation = [
 export default function Navbar({ overlay = true }) {
   const { itemCount } = useCart()
   const { user, isSignedIn, logout } = useAuth()
+  const { count: wishlistCount } = useWishlist()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -30,6 +32,13 @@ export default function Navbar({ overlay = true }) {
 
   return (
     <header className={`site-header${overlay ? '' : ' site-header--solid'}`}>
+      <p className="announcement-bar">
+        <span>Drop 01 — Eyes of Life is live</span>
+        <span aria-hidden="true">·</span>
+        <span>Cash on delivery</span>
+        <span aria-hidden="true">·</span>
+        <span>Delivery to be confirmed</span>
+      </p>
       <div className="site-header__inner container">
         <Link
           className="brand-mark"
@@ -49,6 +58,20 @@ export default function Navbar({ overlay = true }) {
         </nav>
 
         <div className="site-header__actions">
+          {isSignedIn && user?.role === 'admin' && (
+            <Link className="bag-display nav-text" to="/admin/orders" aria-label="Admin orders">
+              <ShieldCheck aria-hidden="true" size={16} strokeWidth={1.5} />
+              <span>Admin</span>
+            </Link>
+          )}
+          <Link className="bag-display nav-text" to="/shop?wishlist=true" aria-label={`Wishlist, ${wishlistCount} saved`}>
+            <Heart aria-hidden="true" size={16} strokeWidth={1.5} />
+            {wishlistCount > 0 && (
+              <span className="bag-display__count" aria-hidden="true">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
           {isSignedIn ? (
             <>
               <Link className="bag-display nav-text" to="/account" aria-label="Your account">

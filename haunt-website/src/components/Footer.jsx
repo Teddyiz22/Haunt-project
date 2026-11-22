@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Instagram } from 'lucide-react'
 import { brandInfo } from '../data/brandInfo.js'
+import NewsletterSignup from './NewsletterSignup.jsx'
 import './Footer.css'
 
 const footerNavigation = [
@@ -9,6 +10,8 @@ const footerNavigation = [
   { label: 'Collection', to: '/collection' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
+  { label: 'Your bag', to: '/bag' },
+  { label: 'Your account', to: '/account' },
 ]
 
 const socialIcons = {
@@ -40,6 +43,11 @@ export default function Footer() {
 
           <nav className="site-footer__socials" aria-label="Social connections">
             <p className="section-label">Follow HΛUNT</p>
+            {configuredSocials.length === 0 && (
+              <p className="muted-text site-footer__social-placeholder">
+                Instagram — to be announced
+              </p>
+            )}
             {configuredSocials.map((social) => {
               const Icon = socialIcons[social.name.toLowerCase()]
               return (
@@ -51,6 +59,10 @@ export default function Footer() {
               )
             })}
           </nav>
+
+          <div className="site-footer__newsletter">
+            <NewsletterSignup source="footer" compact />
+          </div>
         </div>
 
         <div className="site-footer__statement" aria-label="The things that stay with you">

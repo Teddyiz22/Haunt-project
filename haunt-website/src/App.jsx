@@ -8,6 +8,7 @@ import OrderConfirmation from './pages/OrderConfirmation.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Account from './pages/Account.jsx'
+import AdminOrders from './pages/AdminOrders.jsx'
 import About from './pages/About.jsx'
 import Collection from './pages/Collection.jsx'
 import ContactPage from './pages/ContactPage.jsx'
@@ -24,6 +25,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/account" element={<Account />} />
+      <Route path="/admin/orders" element={<AdminOrders />} />
       <Route path="/about" element={<About />} />
       <Route path="/collection" element={<Collection />} />
       <Route path="/contact" element={<ContactPage />} />

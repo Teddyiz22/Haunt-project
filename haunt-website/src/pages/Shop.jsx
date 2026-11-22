@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
 import ProductGrid from '../components/ProductGrid.jsx'
+import { ProductGridSkeleton } from '../components/Skeleton.jsx'
 import { getCategories, getProducts, ApiError } from '../services/productService.js'
+import { useWishlist } from '../context/WishlistContext.jsx'
+import { usePageMeta } from '../utils/seo.js'
 import './Shop.css'
 
 const SIZE_OPTIONS = ['S', 'M', 'L', 'XL']
@@ -28,6 +31,12 @@ export default function Shop() {
   const [pagination, setPagination] = useState({ page: 1, total_pages: 1, total: 0 })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const { items: wishlistItems } = useWishlist()
+
+  usePageMeta({
+    title: 'Shop',
+    description: 'Shop Drop 01 — Eyes of Life. HΛUNT streetwear, cash on delivery.',
+  })
 
   const filters = useMemo(() => ({
     search: searchParams.get('search') || '',
@@ -35,9 +44,24 @@ export default function Shop() {
     size: searchParams.get('size') || '',
     sort: searchParams.get('sort') || 'newest',
     featured: searchParams.get('featured') || '',
+    wishlist: searchParams.get('wishlist') || '',
     page: searchParams.get('page') || '1',
     limit: '12',
   }), [searchParams])
+
+  const hasActiveFilters = Boolean(
+    filters.search || filters.category || filters.size || filters.featured || filters.wishlist,
+  )
+
+  const visibleProducts = useMemo(() => {
+    if (filters.wishlist !== 'true') return products
+    const saved = new Set(wishlistItems.map((entry) => entry.slug))
+    return products.filter((product) => saved.has(product.slug))
+  }, [products, filters.wishlist, wishlistItems])
+
+  function clearFilters() {
+    setSearchParams({})
+  }
 
   function updateFilter(key, value) {
     const next = new URLSearchParams(searchParams)
@@ -142,16 +166,45 @@ export default function Shop() {
               />
               Featured
             </label>
+
+            <label className="shop__check">
+              <input
+                type="checkbox"
+                checked={filters.wishlist === 'true'}
+                onChange={(event) => updateFilter('wishlist', event.target.checked ? 'true' : '')}
+              />
+              Wishlist ({wishlistItems.length})
+            </label>
           </form>
 
-          {loading && <CatalogState title="Loading" message="Retrieving the collection." />}
-          {!loading && error && <CatalogState title="Unavailable" message={error} />}
-          {!loading && !error && products.length === 0 && (
-            <CatalogState title="No pieces" message="Nothing matches these filters in Drop 01." />
-          )}
-          {!loading && !error && products.length > 0 && <ProductGrid products={products} />}
+          <div className="shop__meta">
+            {!loading && !error && (
+              <p className="muted-text">
+                {filters.wishlist === 'true'
+                  ? `${visibleProducts.length} saved piece${visibleProducts.length === 1 ? '' : 's'}`
+                  : `${pagination.total} piece${pagination.total === 1 ? '' : 's'} in Drop 01`}
+              </p>
+            )}
+            {hasActiveFilters && (
+              <button type="button" className="shop__clear" onClick={clearFilters}>
+                Clear all filters
+              </button>
+            )}
+          </div>
 
-          {!loading && !error && pagination.total_pages > 1 && (
+          {loading && <ProductGridSkeleton count={6} />}
+          {!loading && error && <CatalogState title="Unavailable" message={error} />}
+          {!loading && !error && visibleProducts.length === 0 && (
+            <CatalogState
+              title="No pieces"
+              message={filters.wishlist === 'true'
+                ? 'Nothing saved yet. Tap the heart on a piece to keep it here.'
+                : 'Nothing matches these filters in Drop 01.'}
+            />
+          )}
+          {!loading && !error && visibleProducts.length > 0 && <ProductGrid products={visibleProducts} />}
+
+          {!loading && !error && filters.wishlist !== 'true' && pagination.total_pages > 1 && (
             <nav className="shop__pagination" aria-label="Collection pages">
               <button
                 type="button"

@@ -1,10 +1,15 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { Heart } from 'lucide-react'
 import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
-import { getProductBySlug, ApiError } from '../services/productService.js'
+import ProductImage, { BrandPhotoPlaceholder } from '../components/ProductImage.jsx'
+import ProductGrid from '../components/ProductGrid.jsx'
+import { getProductBySlug, getProducts, ApiError } from '../services/productService.js'
 import { addToBag } from '../services/cartIntegration.js'
+import { useToast } from '../context/ToastContext.jsx'
+import { useWishlist } from '../context/WishlistContext.jsx'
 import { formatMmk } from '../utils/formatMoney.js'
-import { resolveMediaUrl } from '../utils/mediaUrl.js'
+import { usePageMeta } from '../utils/seo.js'
 import './ProductDetails.css'
 
 export default function ProductDetails() {
@@ -17,6 +22,16 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1)
   const [notice, setNotice] = useState('')
   const [addedToBag, setAddedToBag] = useState(false)
+  const [related, setRelated] = useState([])
+  const { showToast } = useToast()
+  const { toggleWishlist, isWishlisted } = useWishlist()
+
+  usePageMeta({
+    title: product ? product.name : 'Piece',
+    description: product
+      ? `${product.name} — ${formatMmk(product.price_mmk)}. Drop 01, HΛUNT streetwear. Cash on delivery.`
+      : 'HΛUNT — Drop 01. The things that stay with you.',
+  })
 
   useEffect(() => {
     let cancelled = false
@@ -79,9 +94,45 @@ export default function ProductDetails() {
       setAddedToBag(false)
       return
     }
-    setNotice('Added to your bag.')
+    setNotice('')
     setAddedToBag(true)
+    showToast(`Added ${product.name} (${selectedVariant.size}) × ${quantity} to your bag.`, {
+      to: '/bag',
+      actionLabel: 'View bag',
+    })
   }
+
+  function handleWishlist() {
+    if (!product) return
+    const added = toggleWishlist(product)
+    showToast(added ? `Saved ${product.name} to your wishlist.` : `Removed ${product.name} from your wishlist.`)
+  }
+
+  // Related pieces: same category, never the piece itself.
+  useEffect(() => {
+    if (!product?.category?.slug) return undefined
+    let cancelled = false
+    getProducts({ category: product.category.slug, limit: '5' })
+      .then((payload) => {
+        if (cancelled) return
+        setRelated((payload.data || []).filter((item) => item.slug !== product.slug).slice(0, 4))
+      })
+      .catch(() => {
+        if (!cancelled) setRelated([])
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [product])
+
+  const wishlisted = product ? isWishlisted(product.slug) : false
+  const totalStock = useMemo(
+    () => (product?.variants || []).reduce(
+      (total, variant) => total + (variant.available ? Number(variant.stock_quantity) : 0),
+      0,
+    ),
+    [product],
+  )
 
   return (
     <StorefrontLayout>
@@ -100,12 +151,13 @@ export default function ProductDetails() {
               <div className="product-gallery">
                 <div className="product-gallery__stage">
                   {product.images?.[activeImage] ? (
-                    <img
-                      src={resolveMediaUrl(product.images[activeImage].url)}
+                    <ProductImage
+                      src={product.images[activeImage].url}
                       alt={product.images[activeImage].alt_text || product.name}
+                      productName={product.name}
                     />
                   ) : (
-                    <div className="product-card__placeholder" />
+                    <BrandPhotoPlaceholder productName={product.name} />
                   )}
                 </div>
                 {product.images?.length > 1 && (
@@ -118,7 +170,12 @@ export default function ProductDetails() {
                         onClick={() => setActiveImage(index)}
                         aria-label={`View image ${index + 1}`}
                       >
-                        <img src={resolveMediaUrl(image.url)} alt="" />
+                        <ProductImage
+                          src={image.url}
+                          alt=""
+                          productName={product.name}
+                          compact
+                        />
                       </button>
                     ))}
                   </div>
@@ -130,6 +187,12 @@ export default function ProductDetails() {
                 <h1 className="product-page__name">{product.name}</h1>
                 <p className="product-page__price">{formatMmk(product.price_mmk)}</p>
                 {product.description && <p className="product-page__description muted-text">{product.description}</p>}
+                {product.in_stock && totalStock > 0 && totalStock <= 5 && (
+                  <p className="product-info__low-stock">Only {totalStock} left across all sizes.</p>
+                )}
+                {!product.in_stock && (
+                  <p className="product-info__low-stock">Sold through — no sizes left in this drop.</p>
+                )}
 
                 <fieldset className="product-info__sizes">
                   <legend>Size</legend>
@@ -175,15 +238,35 @@ export default function ProductDetails() {
                 >
                   Add to bag
                 </button>
+                <button
+                  type="button"
+                  className={`outline-button button-text product-info__wishlist${wishlisted ? ' is-active' : ''}`}
+                  onClick={handleWishlist}
+                  aria-pressed={wishlisted}
+                >
+                  <Heart aria-hidden="true" size={15} strokeWidth={1.6} fill={wishlisted ? 'currentColor' : 'none'} />
+                  {wishlisted ? 'Saved to wishlist' : 'Save to wishlist'}
+                </button>
                 {notice && (
+                  <p className="product-info__notice" role="alert">
+                    {notice}
+                  </p>
+                )}
+                {addedToBag && (
                   <p className="product-info__notice">
-                    {notice}{' '}
-                    {addedToBag && <Link to="/bag">View bag</Link>}
+                    Added to your bag. <Link to="/bag">View bag</Link>
                   </p>
                 )}
                 <Link className="product-info__back" to="/shop">Back to the collection</Link>
               </div>
             </div>
+          )}
+          {!loading && product && related.length > 0 && (
+            <section className="product-related" aria-labelledby="related-title">
+              <p className="section-label">You may also like</p>
+              <h2 className="product-related__title" id="related-title">More from Drop 01</h2>
+              <ProductGrid products={related} />
+            </section>
           )}
         </div>
       </section>

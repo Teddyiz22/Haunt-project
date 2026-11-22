@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom'
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
+import ProductImage from '../components/ProductImage.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { formatMmk } from '../utils/formatMoney.js'
-import { resolveMediaUrl } from '../utils/mediaUrl.js'
+import { usePageMeta } from '../utils/seo.js'
 import './Cart.css'
 
 export default function Cart() {
   const { items, updateQuantity, removeItem, subtotal, itemCount } = useCart()
+
+  usePageMeta({
+    title: 'Your bag',
+    description: 'Your HΛUNT bag — review your pieces before checkout.',
+  })
 
   return (
     <StorefrontLayout>
@@ -31,11 +37,12 @@ export default function Cart() {
                 {items.map((item) => (
                   <li className="bag-item" key={item.variantId}>
                     <Link className="bag-item__media" to={`/product/${item.slug}`}>
-                      {item.imageUrl ? (
-                        <img src={resolveMediaUrl(item.imageUrl)} alt={item.name} />
-                      ) : (
-                        <div className="product-card__placeholder" aria-hidden="true" />
-                      )}
+                      <ProductImage
+                        src={item.imageUrl}
+                        alt={item.name}
+                        productName={item.name}
+                        compact
+                      />
                     </Link>
                     <div className="bag-item__info">
                       <h2 className="bag-item__name">

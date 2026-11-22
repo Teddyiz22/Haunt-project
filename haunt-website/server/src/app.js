@@ -4,6 +4,8 @@ import healthRoutes from './routes/healthRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import productRoutes, { adminProductRouter, categoryRouter } from './routes/productRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
+import adminOrderRoutes from './routes/adminOrderRoutes.js'
+import newsletterRoutes from './routes/newsletterRoutes.js'
 import { ensureUploadDirectories, uploadsRoot } from './config/uploads.js'
 import { notFound } from './middleware/notFound.js'
 import { errorHandler } from './middleware/errorHandler.js'
@@ -43,7 +45,9 @@ app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/categories', categoryRouter)
 app.use('/api/orders', orderRoutes)
+app.use('/api/admin/orders', adminOrderRoutes)
 app.use('/api/admin/products', adminProductRouter)
+app.use('/api/newsletter', newsletterRoutes)
 
 app.use(notFound)
 app.use(errorHandler)

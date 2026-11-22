@@ -638,3 +638,504 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Modern store additions: announcement bar, toasts, skeletons,        */
+/* branded photo placeholders, product card interactions, newsletter,  */
+/* shop meta, related products, order status, account order history.   */
+/* ------------------------------------------------------------------ */
+
+/* Screen-reader-only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Announcement bar — sits at the very top of the header on every page. */
+.announcement-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 0.75rem;
+  margin: 0;
+  padding: 0.55rem var(--container-gutter);
+  background: var(--haunt-accent);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.announcement-bar span[aria-hidden="true"] {
+  opacity: 0.6;
+}
+
+/* Toasts — visible feedback for bag, wishlist and admin actions. */
+.toast-stack {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid var(--haunt-border);
+  padding: 0.8rem 0.9rem;
+  background: #161616;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 55%);
+  font-size: 0.85rem;
+}
+
+.toast svg {
+  flex: none;
+  color: var(--haunt-accent);
+}
+
+.toast a {
+  flex: none;
+  color: var(--haunt-text-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.toast button {
+  flex: none;
+  margin-left: auto;
+  color: var(--haunt-text-secondary);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Skeleton loading blocks */
+.skeleton-block,
+.skeleton-line {
+  background: linear-gradient(100deg, #161616 30%, #222 50%, #161616 70%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite linear;
+}
+
+.skeleton-line {
+  height: 0.8rem;
+  margin-top: 0.6rem;
+  border-radius: 2px;
+}
+
+.skeleton-line--short {
+  width: 55%;
+}
+
+@keyframes skeleton-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* Branded photo placeholder — never an empty box while photos are missing. */
+.brand-photo {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 1.5rem;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #1c1c1c 0%, #0b0b0b 70%);
+  text-align: center;
+}
+
+.brand-photo__mark {
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(183 28 28 / 55%);
+  color: var(--haunt-accent);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.brand-photo__word {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+}
+
+.brand-photo__note {
+  max-width: 16rem;
+  color: var(--haunt-text-secondary);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.brand-photo--compact .brand-photo__mark {
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.15rem;
+}
+
+.brand-photo--compact .brand-photo__word {
+  font-size: 0.65rem;
+}
+
+/* Product card: hover lift, quick add, wishlist, badges */
+.product-card {
+  position: relative;
+}
+
+.product-card__media-wrap {
+  position: relative;
+}
+
+.product-card__media {
+  transition: transform var(--transition-standard);
+}
+
+.product-card__media:hover {
+  transform: translateY(-3px);
+}
+
+.product-card__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.45rem 0.6rem;
+  background: var(--haunt-accent);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.product-card__status--low {
+  border-color: rgb(183 28 28 / 70%);
+  color: #ffb4ab;
+}
+
+.product-card__quick-add {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  min-height: 2.75rem;
+  border: 1px solid rgb(255 255 255 / 55%);
+  background: rgb(8 8 8 / 82%);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(0.35rem);
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.product-card__media-wrap:hover .product-card__quick-add,
+.product-card__quick-add:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-card__quick-add:hover {
+  background: var(--haunt-accent);
+  border-color: var(--haunt-accent);
+}
+
+.product-card__wishlist {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 999px;
+  background: rgb(8 8 8 / 72%);
+  color: #fff;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.product-card__wishlist:hover {
+  border-color: #fff;
+}
+
+.product-card__wishlist.is-active {
+  border-color: var(--haunt-accent);
+  color: var(--haunt-accent);
+}
+
+.product-card--skeleton .product-card__media {
+  aspect-ratio: 0.78;
+}
+
+/* Featured drop on the home page */
+.featured-drop {
+  padding: clamp(4rem, 9vw, 7rem) 0;
+  border-bottom: 1px solid var(--haunt-border);
+  background: var(--haunt-bg-primary);
+}
+
+.featured-drop__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.featured-drop__title {
+  margin-top: 0.75rem;
+}
+
+/* Newsletter */
+.home-newsletter {
+  padding: clamp(4rem, 9vw, 7rem) 0;
+  border-bottom: 1px solid var(--haunt-border);
+  background: var(--haunt-bg-secondary);
+}
+
+.newsletter {
+  max-width: 36rem;
+}
+
+.newsletter__title {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.newsletter__text {
+  margin: 0.75rem 0 0;
+}
+
+.newsletter__row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.newsletter__field {
+  flex: 1;
+}
+
+.newsletter__field input {
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid var(--haunt-border);
+  background: var(--haunt-bg-primary);
+  padding: 0.75rem 0.9rem;
+}
+
+.newsletter__error {
+  margin: 0.75rem 0 0;
+  color: #ff8a80;
+  font-size: 0.85rem;
+}
+
+.newsletter--compact .newsletter__title {
+  font-size: 1.35rem;
+}
+
+.newsletter--compact .newsletter__text {
+  font-size: 0.85rem;
+}
+
+.newsletter--compact .newsletter__row {
+  flex-direction: column;
+}
+
+.newsletter--done p:last-child {
+  margin-top: 0.75rem;
+  color: var(--haunt-text-secondary);
+}
+
+/* Shop meta row: result count + clear filters */
+.shop__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: -1rem 0 2rem;
+}
+
+.shop__meta p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.shop__clear {
+  color: var(--haunt-text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-transform: uppercase;
+}
+
+/* Product page: related pieces, low stock, wishlist */
+.product-related {
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  padding-top: clamp(2rem, 5vw, 3rem);
+  border-top: 1px solid var(--haunt-border);
+}
+
+.product-related__title {
+  margin: 0.6rem 0 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.product-info__low-stock {
+  margin: 1rem 0 0;
+  color: #ffb4ab;
+  font-size: 0.85rem;
+}
+
+.product-info__wishlist {
+  display: inline-flex;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.product-info__wishlist.is-active {
+  border-color: var(--haunt-accent);
+  color: #ffb4ab;
+}
+
+/* Order status pills — shared by account and admin */
+.order-status {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--haunt-border);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.order-status--pending { color: #e8c468; border-color: rgb(232 196 104 / 45%); }
+.order-status--confirmed,
+.order-status--processing { color: #8ecae6; border-color: rgb(142 202 230 / 45%); }
+.order-status--shipped { color: #b5179e; border-color: rgb(181 23 158 / 45%); }
+.order-status--completed { color: #80ed99; border-color: rgb(128 237 153 / 45%); }
+.order-status--cancelled,
+.order-status--refunded { color: #ff8a80; border-color: rgb(255 138 128 / 45%); }
+
+/* Account order history */
+.account__section-title {
+  margin: 2.5rem 0 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.account__order-list {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account__order {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--haunt-border);
+}
+
+.account__order-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.account__order-number {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.account__order-meta {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+
+.account__order-total {
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.account__error {
+  margin-top: 1rem;
+  color: #ff8a80;
+  font-size: 0.9rem;
+}
+
+/* Auth error hint — shown under the API message for setup failures */
+.auth__error-hint {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--haunt-text-secondary);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .newsletter__row {
+    flex-direction: column;
+  }
+
+  .product-card__quick-add {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-block,
+  .skeleton-line {
+    animation: none;
+  }
+}

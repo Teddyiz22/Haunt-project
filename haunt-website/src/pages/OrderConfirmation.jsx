@@ -4,6 +4,7 @@ import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
 import { ApiError } from '../services/productService.js'
 import { getOrderByNumber } from '../services/orderService.js'
 import { formatMmk } from '../utils/formatMoney.js'
+import { usePageMeta } from '../utils/seo.js'
 import './OrderConfirmation.css'
 
 function formatAddress(order) {
@@ -26,6 +27,11 @@ export default function OrderConfirmation() {
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+
+  usePageMeta({
+    title: order ? `Order ${order.orderNumber}` : 'Order confirmed',
+    description: 'Your HΛUNT order — cash on delivery. The things that stay with you.',
+  })
 
   useEffect(() => {
     let cancelled = false

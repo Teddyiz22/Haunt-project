@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
+import { usePageMeta } from '../utils/seo.js'
 import './About.css'
 
 const sections = [
@@ -40,6 +41,11 @@ const sections = [
 ]
 
 export default function About() {
+  usePageMeta({
+    title: 'About',
+    description: 'HΛUNT — the meaning behind the brand. Memories, identity, presence, individuality. The things that stay with you.',
+  })
+
   return (
     <StorefrontLayout>
       <article className="about">

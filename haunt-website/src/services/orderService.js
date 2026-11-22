@@ -1,12 +1,16 @@
 import { API_BASE_URL } from '../config/api.js'
 import { ApiError } from './productService.js'
 
-async function apiRequest(path, { method = 'GET', body } = {}) {
+async function apiRequest(path, { method = 'GET', body, token } = {}) {
+  const headers = {}
+  if (body) headers['Content-Type'] = 'application/json'
+  if (token) headers.Authorization = `Bearer ${token}`
+
   let response
   try {
     response = await fetch(`${API_BASE_URL}${path}`, {
       method,
-      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      headers,
       body: body ? JSON.stringify(body) : undefined,
     })
   } catch {
@@ -32,4 +36,8 @@ export function createOrder(payload) {
 export function getOrderByNumber(orderNumber, email) {
   const query = new URLSearchParams({ email })
   return apiRequest(`/orders/${encodeURIComponent(orderNumber)}?${query.toString()}`)
+}
+
+export function getMyOrders(token) {
+  return apiRequest('/orders/mine', { token })
 }

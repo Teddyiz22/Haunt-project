@@ -208,6 +208,106 @@ export async function createGuestOrder({ customer, items }) {
   })
 }
 
+export async function listOrdersByEmail(email, { limit = 50 } = {}) {
+  const db = getPool()
+  const [rows] = await db.query(
+    `SELECT
+        o.order_number, o.status, o.currency, o.subtotal, o.shipping_total,
+        o.discount_total, o.grand_total, o.customer_email, o.customer_name,
+        o.payment_method, o.placed_at,
+        (SELECT COUNT(*) FROM order_items oi WHERE oi.order_id = o.id) AS item_count,
+        (SELECT GROUP_CONCAT(oi.product_name_snapshot SEPARATOR ', ')
+         FROM order_items oi WHERE oi.order_id = o.id) AS item_names
+     FROM orders o
+     WHERE LOWER(o.customer_email) = LOWER(?)
+     ORDER BY o.placed_at DESC, o.id DESC
+     LIMIT ?`,
+    [email, limit],
+  )
+  return rows.map((row) => ({
+    orderNumber: row.order_number,
+    status: row.status,
+    currency: row.currency,
+    subtotal: fromCents(toCents(row.subtotal)),
+    shippingTotal: fromCents(toCents(row.shipping_total)),
+    discountTotal: fromCents(toCents(row.discount_total)),
+    grandTotal: fromCents(toCents(row.grand_total)),
+    customerEmail: row.customer_email,
+    customerName: row.customer_name,
+    paymentMethod: row.payment_method,
+    placedAt: row.placed_at,
+    itemCount: Number(row.item_count || 0),
+    itemNames: row.item_names || '',
+  }))
+}
+
+const ORDER_STATUSES = new Set([
+  'pending', 'confirmed', 'processing', 'shipped', 'completed', 'cancelled', 'refunded',
+])
+
+export function isOrderStatus(value) {
+  return ORDER_STATUSES.has(value)
+}
+
+export async function listOrdersAdmin({ status = null, page = 1, limit = 20 } = {}) {
+  const db = getPool()
+  const where = []
+  const params = []
+  if (status) {
+    where.push('o.status = ?')
+    params.push(status)
+  }
+  const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : ''
+  const offset = (page - 1) * limit
+
+  const [countRows] = await db.query(
+    `SELECT COUNT(*) AS total FROM orders o ${whereSql}`,
+    params,
+  )
+  const [rows] = await db.query(
+    `SELECT
+        o.order_number, o.status, o.currency, o.subtotal, o.shipping_total,
+        o.discount_total, o.grand_total, o.customer_email, o.customer_name,
+        o.customer_phone, o.payment_method, o.placed_at,
+        (SELECT COUNT(*) FROM order_items oi WHERE oi.order_id = o.id) AS item_count,
+        (SELECT GROUP_CONCAT(oi.product_name_snapshot SEPARATOR ', ')
+         FROM order_items oi WHERE oi.order_id = o.id) AS item_names
+     FROM orders o
+     ${whereSql}
+     ORDER BY o.placed_at DESC, o.id DESC
+     LIMIT ? OFFSET ?`,
+    [...params, limit, offset],
+  )
+  return {
+    total: Number(countRows[0]?.total || 0),
+    orders: rows.map((row) => ({
+      orderNumber: row.order_number,
+      status: row.status,
+      currency: row.currency,
+      subtotal: fromCents(toCents(row.subtotal)),
+      shippingTotal: fromCents(toCents(row.shipping_total)),
+      discountTotal: fromCents(toCents(row.discount_total)),
+      grandTotal: fromCents(toCents(row.grand_total)),
+      customerEmail: row.customer_email,
+      customerName: row.customer_name,
+      customerPhone: row.customer_phone,
+      paymentMethod: row.payment_method,
+      placedAt: row.placed_at,
+      itemCount: Number(row.item_count || 0),
+      itemNames: row.item_names || '',
+    })),
+  }
+}
+
+export async function updateOrderStatus(orderNumber, status) {
+  const db = getPool()
+  const [result] = await db.query(
+    'UPDATE orders SET status = ? WHERE order_number = ?',
+    [status, orderNumber],
+  )
+  return result.affectedRows
+}
+
 export async function findOrderByNumber(orderNumber, email) {
   const db = getPool()
   // The email must match (case-insensitive); a miss returns null so the

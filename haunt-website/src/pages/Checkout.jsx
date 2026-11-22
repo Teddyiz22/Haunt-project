@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import StorefrontLayout from '../layouts/StorefrontLayout.jsx'
 import { useCart } from '../context/CartContext.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
 import { ApiError } from '../services/productService.js'
 import { createOrder } from '../services/orderService.js'
 import { formatMmk } from '../utils/formatMoney.js'
+import { usePageMeta } from '../utils/seo.js'
 import './Checkout.css'
 
 const EMPTY_FORM = {
@@ -33,11 +35,28 @@ const FIELDS = [
 
 export default function Checkout() {
   const { items, subtotal, clearCart } = useCart()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState(EMPTY_FORM)
   const [fieldErrors, setFieldErrors] = useState({})
   const [submitError, setSubmitError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  usePageMeta({
+    title: 'Checkout',
+    description: 'Checkout — cash on delivery. HΛUNT Drop 01.',
+  })
+
+  // Signed-in shoppers get their name and email filled in, so the order
+  // lands on the same email their account history uses.
+  useEffect(() => {
+    if (!user) return
+    setForm((current) => ({
+      ...current,
+      name: current.name || `${user.first_name || ''} ${user.last_name || ''}`.trim(),
+      email: current.email || user.email || '',
+    }))
+  }, [user])
 
   function handleChange(event) {
     const { name, value } = event.target
@@ -127,8 +146,9 @@ export default function Checkout() {
               <div className="checkout__form">
                 <h2 className="section-label">Your details</h2>
                 <p className="muted-text checkout__intro">
-                  Guest checkout — no account needed. We only use these details to
-                  deliver your order.
+                  {user
+                    ? 'Signed in — your name and email are filled in. Guest checkout still works without an account.'
+                    : 'Guest checkout — no account needed. We only use these details to deliver your order.'}
                 </p>
 
                 <div className="checkout__fields">

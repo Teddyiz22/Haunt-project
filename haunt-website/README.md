@@ -252,3 +252,43 @@ state), plus sample orders `HNT-20261110-0001` (pending, 84,000 MMK) and
 Sample orders buy only the new sample products, so the 010 demo stock (Eyes
 of Life Tee M = 15) is left untouched for the end-to-end order test. No
 product images are included — sample product photos are still an open task.
+
+## Modern storefront (2026-11-22)
+
+Announcement bar, live featured Drop 01 row on the home page, product cards
+with hover quick-add, wishlist (localStorage `haunt-wishlist-v1`, works for
+guests), branded photo placeholders where product photos are still missing,
+skeleton loading states, toast feedback on add-to-bag, per-page
+title/meta/OG tags, and a newsletter signup.
+
+### Newsletter
+
+Apply the migration, then the signup works:
+
+```sh
+mysql -u root -p < server/database/migrations/012_newsletter.sql
+```
+
+- `POST /api/newsletter` — body `{ email }`. Returns 201 for a new address,
+  200 when the address is already on the list. No email is ever sent from
+  this table in v1; it only records addresses.
+
+### Order history and admin
+
+- `GET /api/orders/mine` — requires `Authorization: Bearer <token>`. Lists
+  the signed-in account's orders, matched by account email.
+- `GET /api/admin/orders` — admin only (admin JWT or `ADMIN_API_TOKEN`).
+  Query: `status`, `page`, `limit`.
+- `PATCH /api/admin/orders/:orderNumber/status` — admin only. Body
+  `{ status }` where status is one of `pending`, `confirmed`, `processing`,
+  `shipped`, `completed`, `cancelled`, `refunded`.
+- Admin page: `/admin/orders` (admin role only) — order list with status
+  filter and status changes, plus a Products & stock tab that edits price and
+  per-size stock through `PUT /api/admin/products/:id`.
+
+### Auth error display
+
+Login and register show the real API error for server/setup failures (API
+unreachable, 503, 500) with a plain-language hint, show validation and
+duplicate-account messages from the API, and keep the wrong-password message
+generic — it never reveals whether the email exists.
