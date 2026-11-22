@@ -67,10 +67,6 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="site-footer__statement" aria-label={brandInfo.tagline}>
-          <p>{brandInfo.tagline}</p>
-        </div>
-
         <div className="site-footer__bottom">
           <p>© {currentYear} {brandInfo.name}. All rights reserved.</p>
           <p>Independent streetwear label <span>—</span> {brandInfo.location}</p>
