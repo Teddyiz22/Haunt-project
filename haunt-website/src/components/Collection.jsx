@@ -24,36 +24,34 @@ export default function Collection() {
 
         <div className="collection__gallery" id="collection-gallery">
           <figure className="collection__figure collection__figure--front">
-            {/* Temporary styling reference by Ruslan Alekso on Pexels, not a HΛUNT product photo. */}
             <div className="collection__image-wrap">
               <img
                 className="collection__image"
-                src="/images/collection/drop01-front.jpg"
-                alt="Temporary styling reference showing a black oversized T-shirt with a front graphic"
+                src="/images/collection/drop01-front.png"
+                alt="HΛUNT Eyes of Life Tee in black, front view with the small chest print"
                 loading="lazy"
               />
-              <span className="collection__view-label">Front reference</span>
+              <span className="collection__view-label">Front</span>
             </div>
             <figcaption className="collection__photo-caption">
-              <span>Campaign reference</span>
+              <span>Black — front</span>
               <span>01 / 02</span>
             </figcaption>
           </figure>
 
           <div className="collection__aside">
             <figure className="collection__figure collection__figure--back">
-              {/* Temporary styling reference by Labskiii on Pexels, not a HΛUNT product photo. */}
               <div className="collection__image-wrap">
                 <img
                   className="collection__image"
-                  src="/images/collection/drop01-back.jpg"
-                  alt="Temporary styling reference showing a black T-shirt with a distinctive back graphic"
+                  src="/images/collection/drop01-back.png"
+                  alt="HΛUNT Eyes of Life Tee in black, back view with the full Eyes of Life print"
                   loading="lazy"
                 />
-                <span className="collection__view-label">Back reference</span>
+                <span className="collection__view-label">Back</span>
               </div>
               <figcaption className="collection__photo-caption">
-                <span>Temporary visual reference</span>
+                <span>Black — back</span>
                 <span>02 / 02</span>
               </figcaption>
             </figure>
@@ -69,9 +67,6 @@ export default function Collection() {
                 <ArrowDownRight aria-hidden="true" size={17} strokeWidth={1.5} />
               </Link>
               <Link className="collection__all-link" to="/collection">View all collections</Link>
-              <p className="collection__disclaimer">
-                Placeholder photography. Replace with official HΛUNT product images.
-              </p>
             </div>
           </div>
         </div>

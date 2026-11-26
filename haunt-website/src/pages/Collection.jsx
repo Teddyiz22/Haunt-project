@@ -43,39 +43,50 @@ export default function Collection() {
             </p>
           </header>
 
+          <figure className="collection-page__banner">
+            <img
+              className="collection-page__banner-image"
+              src="/images/collection/haunt-drop01-collection-banner.png"
+              alt="Drop 01 — Eyes of Life, black and white T-shirts shown from the back"
+              loading="lazy"
+            />
+            <figcaption className="collection-page__photo-caption">
+              <span>Drop 01 — Black &amp; White</span>
+              <span>Back print</span>
+            </figcaption>
+          </figure>
+
           <div className="collection-page__entries">
             <article className="collection-page__entry" aria-labelledby="drop-01-title">
               <div className="collection-page__gallery">
                 <figure className="collection-page__figure">
-                  {/* Temporary styling reference by Ruslan Alekso on Pexels, not a HΛUNT product photo. */}
                   <div className="collection-page__image-wrap">
                     <img
                       className="collection-page__image"
-                      src="/images/collection/drop01-front.jpg"
-                      alt="Temporary styling reference showing a black oversized T-shirt with a front graphic"
+                      src="/images/collection/drop01-front.png"
+                      alt="HΛUNT Eyes of Life Tee in black, front view with the small chest print"
                       loading="lazy"
                     />
-                    <span className="collection-page__view-label">Front reference</span>
+                    <span className="collection-page__view-label">Front</span>
                   </div>
                   <figcaption className="collection-page__photo-caption">
-                    <span>Campaign reference</span>
+                    <span>Black — front</span>
                     <span>01 / 02</span>
                   </figcaption>
                 </figure>
 
                 <figure className="collection-page__figure">
-                  {/* Temporary styling reference by Labskiii on Pexels, not a HΛUNT product photo. */}
                   <div className="collection-page__image-wrap">
                     <img
                       className="collection-page__image"
-                      src="/images/collection/drop01-back.jpg"
-                      alt="Temporary styling reference showing a black T-shirt with a distinctive back graphic"
+                      src="/images/collection/drop01-back.png"
+                      alt="HΛUNT Eyes of Life Tee in black, back view with the full Eyes of Life print"
                       loading="lazy"
                     />
-                    <span className="collection-page__view-label">Back reference</span>
+                    <span className="collection-page__view-label">Back</span>
                   </div>
                   <figcaption className="collection-page__photo-caption">
-                    <span>Temporary visual reference</span>
+                    <span>Black — back</span>
                     <span>02 / 02</span>
                   </figcaption>
                 </figure>
@@ -104,10 +115,6 @@ export default function Collection() {
                   </Link>
                   <Link className="collection-page__shop-link" to="/shop">Shop Drop 01</Link>
                 </div>
-
-                <p className="collection-page__disclaimer">
-                  Placeholder photography. Replace with official HΛUNT product images.
-                </p>
               </div>
             </article>
 

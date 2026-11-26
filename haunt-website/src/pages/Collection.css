@@ -28,6 +28,16 @@
   line-height: 1.7;
 }
 
+.collection-page__banner {
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+}
+
+.collection-page__banner-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .collection-page__entries {
   display: grid;
   gap: clamp(3rem, 7vw, 6rem);

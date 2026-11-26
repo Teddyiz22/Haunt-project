@@ -5,10 +5,10 @@ export default function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero__media" aria-hidden="true">
-        {/* Temporary Pexels image by Husien Bisky; replace with the official campaign photo. */}
+        {/* Official Drop 01 campaign photo: the Eyes of Life back print under a spotlight. */}
         <img
           className="hero__image"
-          src="/images/hero/hero-campaign.jpg"
+          src="/images/hero/haunt-drop01-hero-bg.png"
           alt=""
           fetchPriority="high"
         />
